@@ -32,47 +32,62 @@ public class ArbreB {
 	public ArbreB(ArbreB a1, ArbreB a2, String pregunta) {
 		//Constructor 1. Crea un arbre amb una pregunta i dos respostes
 		root = new NodeA[2];
+		//? root[0] = referencia a l'arrel
 		root[1] = new NodeA(pregunta, a1, a2);
 	}
 	public ArbreB() {
 		//Constructor 2. Crea un arbre buit
 		root = new NodeA[2];
+		//? root[0] = referencia a l'arrel
 		root[1] = new NodeA(getContents());
 	}	
 	public ArbreB(String filename) throws Exception{
 		//Constructor 3. Crea l'arbre amb el contingut donat en un fitxer
 		//El par�metre indica el nom del fitxer
+		// TODO: Implementar
 	}
 
 	/* PUBLIC METHODS */
 	public boolean isEmpty() {
 		//COMPLETE
+		return root[1] == null;
 	}
-	public void rewind() {
+	public void rewind() { //? aquest metode no tinc ni idea de que es suposa que ha de fer
 		//COMPLETE
 	}
 	/* True if the current node is an answer (a leaf) */
 	public boolean atAnswer() {
 		//COMPLETE
+		return root[1].yes == null && root[1].no == null;
 	}
 	/* move current to yes-descendant of itself */
 	public void moveToYes() {
 		//COMPLETE
+		root[1].yes = this; //? crec que es aixi, esque no entenc exactament que demana
 	}
-	/* move current to yes-descendant of itself */
+	/* move current to yes-descendant of itself */ //? aqui no seria: move current to no-descendant of itself?
 	public void moveToNo() {
 		//COMPLETE
+		root[1].no = this; //? crec que es aixi, esque no entenc exactament que demana
 	}
 	/* get the contents of the current node */
 	public String getContents() {
 		//COMPLETE
+		return root[1].contents; //? crec que es aixi, esque no entenc exactament que demana
 	}
-	 /* Substituir la informaci� del node actual
-	 * per la pregunta donada pel jugador. Previament crear el node que ser� el
-	 * seu fill dret, resposta no encertada, amb la informaci� del node actual.
+	 /* Substituir la informació del node actual
+	 per la pregunta donada pel jugador. Previament crear el node que serà el
+	 seu fill dret, resposta no encertada, amb la informació del node actual.
 	 */
 	public void improve(String question, String answer) {
-		//COMPLETE
+		//COMPLETE: DONE
+		
+		root[1].no = new ArbreB(null, null, root[1].contents); 
+		root[1].contents = question;
+		root[1].yes = new ArbreB(null, null, answer);
+		
+		// root[1].yes = new ArbreB(answer);
+		// root[1].contents = question;
 	}
 	private void preorderWrite(BufferedWriter buw) throws Exception {
 		//Imprescindible que la implementaci� sigui recursiva
