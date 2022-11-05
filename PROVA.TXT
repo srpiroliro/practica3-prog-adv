@@ -1,10 +1,10 @@
-ÉS UN MAMÍFER?
-ÉS UN ANIMAL DE COMPANYIA?
-ÉS EL MILLOR AMIC DE L’HOME?
+És un mamífer?
+És un animal de companyia?
+És el millor amic de l’home?
 GOS
 GAT
-ÉS UN ANIMAL QUE VIU AL MAR?
-ÉS EL ANIMAL MÉS GRAN?
+És un animal que viu al mar?
+És el animal més gran?
 BALLENA
 DOFÍ
 TIGRE
