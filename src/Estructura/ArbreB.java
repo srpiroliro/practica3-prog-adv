@@ -15,20 +15,29 @@ public class ArbreB {
 	
 		NodeA(String contents) {
 			//Constructor 1. Inicialitza als atributys yes i no a null
+			this(contents, null, null);
 		}
 		NodeA(String pregunta, ArbreB a1, ArbreB a2) {
 			//Constructor 2. Crea el node i l'inicialitza amb els par�metres
+			this.contents = pregunta;
+			this.yes = a1;
+			this.no = a2;
 		}
 	}
 	// Atributs: Taula de 2 posicions
+	// Dues referències a NodeA, una que sempre s’ha de mantenir a l’arrel de l’arbre i una segona al node actual en l’avançament de joc. Ambdues referències estan englobades en una taula de dues posicions:
 	private NodeA[] root;
 
 	/* CONSTRUCTORS */
 	public ArbreB(ArbreB a1, ArbreB a2, String pregunta) {
 		//Constructor 1. Crea un arbre amb una pregunta i dos respostes
+		root = new NodeA[2];
+		root[1] = new NodeA(pregunta, a1, a2);
 	}
 	public ArbreB() {
 		//Constructor 2. Crea un arbre buit
+		root = new NodeA[2];
+		root[1] = new NodeA(getContents());
 	}	
 	public ArbreB(String filename) throws Exception{
 		//Constructor 3. Crea l'arbre amb el contingut donat en un fitxer
