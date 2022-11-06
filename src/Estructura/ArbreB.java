@@ -32,14 +32,14 @@ public class ArbreB {
 	public ArbreB(ArbreB a1, ArbreB a2, String pregunta) {
 		//Constructor 1. Crea un arbre amb una pregunta i dos respostes
 		root = new NodeA[2];
-		//? root[0] = referencia a l'arrel
 		root[1] = new NodeA(pregunta, a1, a2);
+		root[0] = root[1];
 	}
 	public ArbreB() {
 		//Constructor 2. Crea un arbre buit
 		root = new NodeA[2];
-		//? root[0] = referencia a l'arrel
 		root[1] = new NodeA(getContents());
+		root[0] = root[1];
 	}	
 	public ArbreB(String filename) throws Exception{
 		//Constructor 3. Crea l'arbre amb el contingut donat en un fitxer
@@ -50,10 +50,11 @@ public class ArbreB {
 	/* PUBLIC METHODS */
 	public boolean isEmpty() {
 		//COMPLETE
-		return root[1] == null;
+		return root[1] == null; //? Ns si es correcte
 	}
-	public void rewind() { //? aquest metode no tinc ni idea de que es suposa que ha de fer
+	public void rewind() {
 		//COMPLETE
+		root[1] = root[0];
 	}
 	/* True if the current node is an answer (a leaf) */
 	public boolean atAnswer() {
@@ -63,17 +64,17 @@ public class ArbreB {
 	/* move current to yes-descendant of itself */
 	public void moveToYes() {
 		//COMPLETE
-		root[1].yes = this; //? crec que es aixi, esque no entenc exactament que demana
+		root[1] = root[1].yes.root[0];
 	}
 	/* move current to yes-descendant of itself */ //? aqui no seria: move current to no-descendant of itself?
 	public void moveToNo() {
 		//COMPLETE
-		root[1].no = this; //? crec que es aixi, esque no entenc exactament que demana
+		root[1] = root[1].no.root[0]; 
 	}
 	/* get the contents of the current node */
 	public String getContents() {
 		//COMPLETE
-		return root[1].contents; //? crec que es aixi, esque no entenc exactament que demana
+		return root[1].contents;
 	}
 	 /* Substituir la informació del node actual
 	 per la pregunta donada pel jugador. Previament crear el node que serà el
