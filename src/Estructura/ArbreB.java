@@ -124,6 +124,15 @@ public class ArbreB {
 	public void visualitzarPreguntes() {
 		/* COMPLETE */
 		// Visualitza a pantalla les preguntes
-		// Imprescindible invocar a un m�tode la classe NodeA
+		//! Imprescindible invocar a un m�tode la classe NodeA
+		ArbreB aux = this;
+		visualitzarPreguntesR(aux);
+	}
+	private void visualitzarPreguntesR(ArbreB aux) {
+		if(!aux.atAnswer()){
+			System.out.print(aux.getContents());
+			visualitzarPreguntesR(aux.root[1].yes);
+			visualitzarPreguntesR(aux.root[1].no);
+		}
 	}
 }
