@@ -48,22 +48,14 @@ public class ArbreB {
 	}
 
 	/* PUBLIC METHODS */
-	public boolean isEmpty() {
-		return root[1] == null; //? Ns si es correcte
-	}
-	public void rewind() {
-		root[1]=root[0];
-	}
+	public boolean isEmpty() {return root[1] == null;} //? Ns si es correcte
+	public void rewind() {root[1]=root[0];}
 	/* True if the current node is an answer (a leaf) */
-	public boolean atAnswer() {
-		return root[1].yes == null && root[1].no == null;
-	}
+	public boolean atAnswer() {return root[1].yes == null && root[1].no == null;}
 	/* move current to yes-descendant of itself */
-	public void moveToYes() {
-		root[1] = root[1].yes.root[0];
-	}
+	public void moveToYes() {root[1] = root[1].yes.root[0];} //! controlar nullexceptions
 	/* move current to no-descendant of itself */
-	public void moveToNo() { root[1] = root[1].no.root[0];}
+	public void moveToNo() { root[1] = root[1].no.root[0];} //! controlar nullexceptions
 	/* get the contents of the current node */
 	public String getContents() {return root[1].contents;}
 	 /* Substituir la informació del node actual
@@ -74,9 +66,6 @@ public class ArbreB {
 		root[1].no = new ArbreB(null, null, root[1].contents); 
 		root[1].contents = question;
 		root[1].yes = new ArbreB(null, null, answer);
-		
-		// root[1].yes = new ArbreB(answer);
-		// root[1].contents = question;
 	}
 	private void preorderWrite(BufferedWriter buw) throws Exception {
 		//Imprescindible que la implementaci� sigui recursiva
