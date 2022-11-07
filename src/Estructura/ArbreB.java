@@ -49,40 +49,28 @@ public class ArbreB {
 
 	/* PUBLIC METHODS */
 	public boolean isEmpty() {
-		//COMPLETE
 		return root[1] == null; //? Ns si es correcte
 	}
 	public void rewind() {
-		//COMPLETE
-		root[1] = root[0];
+		root[1]=root[0];
 	}
 	/* True if the current node is an answer (a leaf) */
 	public boolean atAnswer() {
-		//COMPLETE
 		return root[1].yes == null && root[1].no == null;
 	}
 	/* move current to yes-descendant of itself */
 	public void moveToYes() {
-		//COMPLETE
 		root[1] = root[1].yes.root[0];
 	}
-	/* move current to yes-descendant of itself */ //? aqui no seria: move current to no-descendant of itself?
-	public void moveToNo() {
-		//COMPLETE
-		root[1] = root[1].no.root[0]; 
-	}
+	/* move current to no-descendant of itself */
+	public void moveToNo() { root[1] = root[1].no.root[0];}
 	/* get the contents of the current node */
-	public String getContents() {
-		//COMPLETE
-		return root[1].contents;
-	}
+	public String getContents() {return root[1].contents;}
 	 /* Substituir la informació del node actual
 	 per la pregunta donada pel jugador. Previament crear el node que serà el
 	 seu fill dret, resposta no encertada, amb la informació del node actual.
 	 */
 	public void improve(String question, String answer) {
-		//COMPLETE: DONE
-		
 		root[1].no = new ArbreB(null, null, root[1].contents); 
 		root[1].contents = question;
 		root[1].yes = new ArbreB(null, null, answer);
@@ -108,22 +96,30 @@ public class ArbreB {
 	}
 	private NodeA loadFromFile(String filename){
 		//Imprescindible implementaci� recursiva
+		return null;
 	}
 	public void visualitzarAnimals() {
+		return;
+		// Visualitzar a pantalla el nom dels animals que conté l’arbre
 		/* Following the guidelines indicated in the statement of practice */
 		/* COMPLETE */
 	}
 	public int quantsAnimals() {
+		return 0;
+		// Comptabilitza el nombre d’animals que conté l’arbre
 		/* Following the guidelines indicated in the statement of practice */
 		/* COMPLETE */
 	}
 	public int alsada() {
+		return 0;
 		/* COMPLETE */
 		// Imprescindible invocar a un m�tode la classe NodeA
+		// Calcula i retorna l’alçada de l’arbre. Recordeu que aquesta ve donada per la 
+		// longitud del camí que va des de l’arrel de l’arbre a la fulla més llunyana:
 	}
 	public void visualitzarPreguntes() {
 		/* COMPLETE */
-		// Visualitza a pantalla les preguntes
+		// Visualitzar a pantalla les preguntes que conté l’arbre
 		//! Imprescindible invocar a un m�tode la classe NodeA
 		ArbreB aux = this;
 		visualitzarPreguntesR(aux);
