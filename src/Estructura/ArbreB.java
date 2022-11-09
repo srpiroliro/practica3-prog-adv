@@ -88,10 +88,13 @@ public class ArbreB {
 		return null;
 	}
 	public void visualitzarAnimals() {
-		return;
 		// Visualitzar a pantalla el nom dels animals que conté l’arbre
 		/* Following the guidelines indicated in the statement of practice */
 		/* COMPLETE */
+
+		ArbreB aux = this;
+		visualitzarAnimalsR(aux);
+		// visualitzaR(this, true); funcionaria igual??
 	}
 	public int quantsAnimals() {
 		return 0;
@@ -112,12 +115,31 @@ public class ArbreB {
 		//! Imprescindible invocar a un m�tode la classe NodeA
 		ArbreB aux = this;
 		visualitzarPreguntesR(aux);
+		// visualitzarR(this, false); funcionaria igual??
 	}
 	private void visualitzarPreguntesR(ArbreB aux) {
 		if(!aux.atAnswer()){
-			System.out.print(aux.getContents());
+			System.out.println(aux.getContents());
 			visualitzarPreguntesR(aux.root[1].yes);
 			visualitzarPreguntesR(aux.root[1].no);
 		}
 	}
+	private void visualitzarAnimalsR(ArbreB aux){
+		if(aux.atAnswer())
+			System.out.println(aux.getContents());
+		else{
+			visualitzarAnimalsR(aux.root[1].yes);
+			visualitzarAnimalsR(aux.root[1].no);
+		}
+	}
+
+	private void visualitzarR(ArbreB aux, boolean b){
+		if(aux.atAnswer()==b)
+			System.out.println(aux.getContents());
+		if(!aux.atAnswer()){
+			visualitzarR(aux.root[1].yes, b);
+			visualitzarR(aux.root[1].no, b);
+		}
+	}
+
 }
