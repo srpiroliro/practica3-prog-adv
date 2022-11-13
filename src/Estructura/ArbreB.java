@@ -5,10 +5,6 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Stack;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class ArbreB {
@@ -21,9 +17,36 @@ public class ArbreB {
 			this.contents=pregunta;
 			this.yes=a1; this.no=a2;
 		}
+		
+		private void visualitzar(boolean b){
+			boolean answ=yes==null && no==null;
+			if(answ==b) System.out.println(contents);
+			if(!answ){
+				yes.root[0].visualitzar(b);
+				no.root[0].visualitzar(b);
+			}
+		}
+		private int getDepth(){
+			int left=0,right=0;
+			if(yes==null && no==null) return 1;
+
+			if(yes!=null) right=yes.root[0].getDepth();
+			if(no!=null)  left=no.root[0].getDepth();
+
+			return 1+Math.max(left,right);
+		}
+		private int getAnimals(){
+			int c=0;
+			if(yes==null && no==null) return 1;
+			for (ArbreB arbre:new ArbreB[]{yes,no}) {
+				if(arbre!=null) 
+					c+=arbre.root[0].getAnimals();
+			}
+			return c;
+		}
 	}
 	
-	private NodeA[] root; // root[0]==prev, root[1]==next
+	private NodeA[] root;
 
 	/* CONSTRUCTORS */
 	public ArbreB(ArbreB a1,ArbreB a2,String pregunta){
@@ -31,11 +54,7 @@ public class ArbreB {
 		root[1]=new NodeA(pregunta,a1,a2);
 		root[0]=root[1];
 	}
-	public ArbreB(){
-		root=new NodeA[2];
-		// root[1]=new NodeA(); //getContents()); // CHECK
-		// root[0]=root[1]; // CHECK
-	}	
+	public ArbreB(){root=new NodeA[2];}	// CHECK
 	public ArbreB(String filename) throws Exception{
 		root=new NodeA[2];
 		root[1]=loadFromFile(filename);
@@ -43,31 +62,25 @@ public class ArbreB {
 	}
 
 	/* PUBLIC METHODS */
-	public boolean isEmpty(){return root[1]==null;} // CHECK
+	public boolean isEmpty(){return (root==null)?null:root[1]==null;}
 	public void rewind(){root[1]=root[0];}
-	public boolean atAnswer(){return root[1].yes==null && root[1].no==null;}
+	public boolean atAnswer(){return (root==null)?null:root[1].yes==null && root[1].no==null;}
 	public void moveToYes(){
-		root[1]=(root[1].yes==null)?null:root[1].yes.root[1]; // CHECK nullpointer
+		if(root==null) return;
+		root[1]=(root[1].yes==null)?null:root[1].yes.root[1];
 	} 
 	public void moveToNo(){
-		root[1]=(root[1].no==null)?null:root[1].no.root[1]; // CHECK nullpointer
+		if(root==null) return;
+		root[1]=(root[1].no==null)?null:root[1].no.root[1];
 	}
-	public String getContents(){return root[1].contents;}
+	public String getContents(){
+		return (root==null)?null:root[1].contents;
+	}
 	public void improve(String question,String answer){
 		root[1].no=new ArbreB(root[1].yes,root[1].no,root[1].contents); // CHECK
 		root[1].contents=question;
 		root[1].yes=new ArbreB(null,null,answer);
 	}
-	private void preorderWrite(BufferedWriter buw) throws Exception{
-		if(root==null) return;
-		buw.write(root[0].contents);
-		for(ArbreB subarbre:new ArbreB[]{root[0].yes,root[0].no}){
-			if(root[0].yes!=null){
-				buw.newLine(); subarbre.preorderWrite(buw);
-			}
-		}
-	}
-
 	public void save(String filename) throws Exception{
 		BufferedWriter buw=null;
 		try{
@@ -79,74 +92,60 @@ public class ArbreB {
 			System.exit(0);
 		}
 	}
-
-	private NodeA loadFromFile(String filename){
-		List<String> lines=get_file_lines(filename);
-		return new NodeA(
-			lines.get(0),
-			build(lines, 1),
-			build(lines, 2)
-		);
+	public int quantsAnimals(){
+		if(root==null) return 0;
+		return root[0].getAnimals();	
 	}
-	private List<String> get_file_lines(String filename){
-		BufferedReader reader; 
-		List<String> lines=new ArrayList<>();
+	public int alsada(){
+		return (isEmpty())?0:root[0].getDepth();		
+	}
+	public void visualitzarPreguntes(){
+		if(root==null) return;
+		root[0].visualitzar(false);
+	}
+	public void visualitzarAnimals(){
+		if(root==null) return;
+		root[0].visualitzar(true);
+	}
+
+
+	/* PRIVATE METHODS */
+	private void preorderWrite(BufferedWriter buw) throws Exception{
+		if(root==null) return;
+		buw.write(root[0].contents);
+		for(ArbreB subarbre:new ArbreB[]{root[0].yes,root[0].no}){
+			if(root[0].yes!=null){
+				buw.newLine(); subarbre.preorderWrite(buw);
+			}
+		}
+	}
+	private NodeA loadFromFile(String filename){
+		BufferedReader reader;
+		NodeA m=null;
 		try{
 			reader=new BufferedReader(new FileReader(filename));
-			String line=reader.readLine();
-			while(line!=null){
-				lines.add(line);
-				line=reader.readLine();
-			}
+			m=build(reader);
 			reader.close();
 		}catch(IOException e){
 			System.err.println("loadFromFile failed: " + e);
 			System.exit(0);
 		}
-		return lines;
+		return m;
 	}
-	private ArbreB build(List<String> lines, int i){
-		if(lines.size()<i) return null; // CHECK: necessary?
+	private NodeA build(BufferedReader b) throws IOException{
+		String l=b.readLine();
+		if(l!=null){
+			NodeA x=new NodeA(l);
+			if(!isQ(l)) return x;
+			else {
+				NodeA r1=build(b),r2=build(b);
+				x.yes=new ArbreB(r1.yes, r1.no, r1.contents);
+				x.no=new ArbreB(r2.yes, r2.no, r2.contents);
 
-		ArbreB y=null,n=null;
-		String content=lines.get(i);
-
-		if(lines.size()>i+2){
-			if(isQ(content)){
-				y=build(lines,i+1); n=build(lines,i+2);
-				for(int x=0;x<2;x++){lines.remove(i+1);}
+				return x;
 			}
 		}
-		return new ArbreB(y,n,content);
+		return null;
 	}
-
 	private boolean isQ(String str){return str.indexOf("?")>0;}
-
-	public int quantsAnimals(){
-		return 0;
-		// Comptabilitza el nombre d’animals que conté l’arbre
-		/* Following the guidelines indicated in the statement of practice */
-		/* COMPLETE */
-	}
-	public int alsada(){
-		return 0;
-		/* COMPLETE */
-		// Imprescindible invocar a un m�tode la classe NodeA
-		// Calcula i retorna l’alçada de l’arbre. Recordeu que aquesta ve donada per la 
-		// longitud del camí que va des de l’arrel de l’arbre a la fulla més llunyana:
-	}
-	public void visualitzarPreguntes(){visualitzarR(this,false);}
-	public void visualitzarAnimals(){visualitzarR(this,true);}
-
-	private void visualitzarR(ArbreB aux, boolean b){ // CHECK: legal?
-		if(aux==null) return;
-
-		boolean answ=aux.atAnswer();
-		if(answ==b) System.out.println(aux.getContents());
-		if(!answ){
-			visualitzarR(aux.root[1].yes, b);
-			visualitzarR(aux.root[1].no, b);
-		}
-	}
-
 }
