@@ -1,11 +1,11 @@
 # TODO
  - ArbreB
-    [] CHECKs:
+    - [ ] CHECKs:
         1. `public ArbreB()`
         2. `public void improve(String question,String answer)`
-    [] `(root==null)` or `isEmpty()`?
+    - [] `(root==null)` or `isEmpty()`?
 
-    
+
  - Joc
-    [] main
-    [] substituir `System.console()` per la llibreria `Keyboard.jar`
+    - [ ] main
+    - [ ] substituir `System.console()` per la llibreria `Keyboard.jar`
