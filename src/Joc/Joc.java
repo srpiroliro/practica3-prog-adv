@@ -19,7 +19,7 @@ public class Joc {
 				System.out.println("Error: " + e.getMessage());
 				a = new ArbreB();
 			}
-		} else {
+		}else{
 			System.out.println("\u001B[31m"+"\nNo s'ha carregat cap fitxer");
 			System.out.println("Comencem amb un arbre buit");
 			System.out.println("\nPer començar cal intoduir una primera pregunta amb dues respostes");
