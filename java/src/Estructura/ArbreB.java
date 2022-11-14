@@ -28,7 +28,7 @@ public class ArbreB {
 		}
 		private int getDepth(){
 			int left=0,right=0;
-			if(yes==null && no==null) return 1;
+			if(yes==null && no==null) return 0;
 
 			if(yes!=null) right=yes.root[0].getDepth();
 			if(no!=null)  left=no.root[0].getDepth();
@@ -76,10 +76,13 @@ public class ArbreB {
 	public String getContents(){
 		return (root==null)?null:root[1].contents;
 	}
-	public void improve(String question,String answer){
-		root[1].no=new ArbreB(root[1].yes,root[1].no,root[1].contents); // CHECK
-		root[1].contents=question;
-		root[1].yes=new ArbreB(null,null,answer);
+	public void improve(String question,String answer){ // TODO
+		// root[0].no=new ArbreB(root[0].no.root[0], );
+
+
+		root[0].no=new ArbreB(root[0].yes,root[0].no,root[0].contents);
+		root[0].contents=question;
+		root[0].yes=new ArbreB(null,null,answer);
 	}
 	public void save(String filename) throws Exception{
 		BufferedWriter buw=null;
