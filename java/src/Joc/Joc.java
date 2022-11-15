@@ -1,5 +1,4 @@
 package Joc;
-// /home/morlok/Documents/university/2/padv/practiques/3/PROVA.TXT
 import Keyboard.*;
 
 import java.util.HashMap;
@@ -7,7 +6,6 @@ import java.util.Map;
 import Estructura.ArbreB;
 
 public class Joc{
-
 	static Map<String, String> msgs=new HashMap<String, String>();
 	public static void main(String[] args){
 		createMessages();
@@ -25,7 +23,6 @@ public class Joc{
 			System.out.print(msgs.get("play-again"));
 			answer=Keyboard.readString().toLowerCase();
 		}while(answer.equals("si"));
-
 		save_tree(arbre);
 
 		System.out.println(msgs.get("goodbye"));
@@ -130,8 +127,4 @@ public class Joc{
 
 	static String capitalize(String in){return in.substring(0,1).toUpperCase()+in.substring(1).toLowerCase();}
 	static String removeQ(String in){return (in.endsWith("?"))?in.substring(0,in.length()-1):in;}
-
-
-
-
 }

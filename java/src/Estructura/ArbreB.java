@@ -47,11 +47,11 @@ public class ArbreB {
 	private NodeA[] root;
 
 	/* CONSTRUCTORS */
+	public ArbreB(){root=null;}
 	public ArbreB(ArbreB a1,ArbreB a2,String pregunta){
 		root=new NodeA[2];
 		root[1]=new NodeA(pregunta,a1,a2); root[0]=root[1];
 	}
-	public ArbreB(){root=null;}
 	public ArbreB(String filename) throws Exception{
 		File f=new File(filename);
 		if(f.isFile()) { 
@@ -93,7 +93,6 @@ public class ArbreB {
 	public int alsada(){return (isEmpty())?0:root[0].getDepth()-1;}
 	public void visualitzarPreguntes(){if(!isEmpty()) root[0].visualitzar(false);}
 	public void visualitzarAnimals(){if(!isEmpty()) root[0].visualitzar(true);}
-
 
 	/* PRIVATE METHODS */
 	private void preorderWrite(BufferedWriter buw) throws Exception{
