@@ -20,5 +20,5 @@
     - [ ] `NodeA build(...)`
     - [ ] `void preorderWrite(...)`
 
-- [ ] `class Joc`
+- `class Joc`
     - all
