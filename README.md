@@ -9,4 +9,4 @@
 - `class Joc`
     - [X] main
     - [X] substituir `System.console()` per la llibreria `Keyboard.jar`
-    - [ ] comprovar que Keyboard funciona.
+    - [X] comprovar que Keyboard funciona.
