@@ -35,4 +35,18 @@ class ArbreB:
 		}
     };
 
+    NodeA[] root;
+
+    public:
+        ArbreB(){root=NULL;}
+        ArbreB(ArbreB a1, ArbreB a2, String content){
+	    root=NodeA[2];
+	    root[1]=NodeA(a1,a2,content); root[0]=root[1];
+        }
+        ArbreB(String filename){
+            root=NodeA[2];
+            root[1]=loadFromFile(filename); root[0]=root[1];
+        }
+
+
 
