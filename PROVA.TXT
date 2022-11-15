@@ -1,15 +1,7 @@
 És un mamífer?
     És un animal de companyia?
         És el millor amic de l’home?
-            És un animal que viu al mar?
-                És el animal més gran?
-                    És un animal que viu al mar?
-                        És el animal més gran?
-                            BALLENA
-                            DOFÍ
-                        TIGRE
-                    DOFÍ
-                TIGRE
+            GOS
             GAT
         És un animal que viu al mar?
             És el animal més gran?

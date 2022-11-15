@@ -1,5 +1,3 @@
-
-
 package Joc;
 
 import Keyboard.*;
