@@ -12,12 +12,6 @@ public class Joc{
 
 	static Map<String, String> msgs=new HashMap<String, String>();
 	public static void main(String[] args){
-		// try {
-		// 	ArbreB a=new ArbreB("/home/morlok/Documents/university/2/padv/practiquesss/3/PROVA.TXT");
-		// 	System.out.println(a.alsada());
-		// } catch (Exception e){System.out.println(e);}
-		// System.exit(0);
-
 		String answer;
 		createMessages();
 		
@@ -64,7 +58,7 @@ public class Joc{
 		do{
 			System.out.print(msgs.get("filename"));
 			try{
-				String answer=Keyboard.readString(); // CHECK what if 404?
+				String answer=Keyboard.readString();
 				a=new ArbreB(answer);
 			}catch (Exception e){System.out.println("Error: "+e.getMessage());}
 		}while(a!=null);
