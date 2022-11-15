@@ -2,6 +2,7 @@ package Estructura;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -28,11 +29,8 @@ public class ArbreB {
 		}
 		private int getDepth(){
 			int left=0,right=0;
-			if(yes==null && no==null) return 0;
-
 			if(yes!=null) right=yes.root[0].getDepth();
 			if(no!=null)  left=no.root[0].getDepth();
-
 			return 1+Math.max(left,right);
 		}
 		private int getAnimals(){
@@ -51,34 +49,36 @@ public class ArbreB {
 	/* CONSTRUCTORS */
 	public ArbreB(ArbreB a1,ArbreB a2,String pregunta){
 		root=new NodeA[2];
-		root[1]=new NodeA(pregunta,a1,a2);
-		root[0]=root[1];
+		root[1]=new NodeA(pregunta,a1,a2); root[0]=root[1];
 	}
-	public ArbreB(){root=null}
+	public ArbreB(){root=null;}
 	public ArbreB(String filename) throws Exception{
-		root=new NodeA[2];
-		root[1]=loadFromFile(filename);
-		root[0]=root[1];
+		File f=new File(filename);
+		if(f.isFile()) { 
+			root=new NodeA[2];
+			root[1]=loadFromFile(filename); root[0]=root[1];
+		} else throw new Exception("NO ES UN FITXER O ERROR 404.");
 	}
 
 	/* PUBLIC METHODS */
-	public boolean isEmpty(){return (root==null)?null:root[1]==null;}
+	public boolean isEmpty(){return (root==null)?true:root[1]==null;}
 	public void rewind(){root[1]=root[0];}
-	public boolean atAnswer(){return (root==null)?null:root[1].yes==null && root[1].no==null;}
+	public boolean atAnswer(){return (isEmpty())?null:root[1].yes==null && root[1].no==null;}
 	public void moveToYes(){
-		if(root==null || root[1].yes==null) return; // CHECK
-		root[1]=(root[1].yes==null)?null:root[1].yes.root[1];
+		if(!isEmpty()) 
+			root[1]=(root[1].yes==null)?null:root[1].yes.root[1];
 	}
 	public void moveToNo(){
-		if(root==null || root[1].no==null) return; // CHECK
-		root[1]=(root[1].no==null)?null:root[1].no.root[1];
+		if(!isEmpty()) 
+			root[1]=(root[1].no==null)?null:root[1].no.root[1];
 	}
-	public String getContents(){
-		return (root==null)?null:root[1].contents;
-	}
+	public String getContents(){return (isEmpty())?null:root[1].contents;}
 	public void improve(String question,String answer){
-		ArbreB nou=new ArbreB(new ArbreB(null,null,answer), new ArbreB(null,null, root[1].contents), question);
-		root[1]=nou;
+		root[1]=new NodeA(
+			question,
+			new ArbreB(null,null,answer), 
+			new ArbreB(null,null,root[1].contents)
+		);
 	}
 	public void save(String filename) throws Exception{
 		BufferedWriter buw=null;
@@ -91,26 +91,15 @@ public class ArbreB {
 			System.exit(0);
 		}
 	}
-	public int quantsAnimals(){
-		if(root==null) return 0;
-		return root[0].getAnimals();
-	}
-	public int alsada(){
-		return (isEmpty())?0:root[0].getDepth();
-	}
-	public void visualitzarPreguntes(){
-		if(root==null) return;
-		root[0].visualitzar(false);
-	}
-	public void visualitzarAnimals(){
-		if(root==null) return;
-		root[0].visualitzar(true);
-	}
+	public int quantsAnimals(){return (isEmpty())?0:root[0].getAnimals();}
+	public int alsada(){return (isEmpty())?0:root[0].getDepth()-1;}
+	public void visualitzarPreguntes(){if(!isEmpty()) root[0].visualitzar(false);}
+	public void visualitzarAnimals(){if(!isEmpty()) root[0].visualitzar(true);}
 
 
 	/* PRIVATE METHODS */
 	private void preorderWrite(BufferedWriter buw) throws Exception{
-		if(root==null) return;
+		if(isEmpty()) return;
 		buw.write(root[0].contents);
 		for(ArbreB subarbre:new ArbreB[]{root[0].yes,root[0].no}){
 			if(root[0].yes!=null){
@@ -132,19 +121,17 @@ public class ArbreB {
 		return m;
 	}
 	private NodeA build(BufferedReader b) throws IOException{
-		String l=b.readLine();
+		NodeA node=null; String l=b.readLine();
+		
 		if(l!=null){
-			NodeA x=new NodeA(l);
-			if(!isQ(l)) return x;
-			else {
-				NodeA r1=build(b),r2=build(b);
-				x.yes=new ArbreB(r1.yes, r1.no, r1.contents);
-				x.no=new ArbreB(r2.yes, r2.no, r2.contents);
-
-				return x;
+			node=new NodeA(l);
+			if(isQ(l)){
+				NodeA r1=build(b), r2=build(b);
+				node.yes=new ArbreB(r1.yes, r1.no, r1.contents);
+				node.no=new ArbreB(r2.yes, r2.no, r2.contents);
 			}
 		}
-		return null;
+		return node;
 	}
 	private boolean isQ(String str){return str.indexOf("?")>0;}
 }

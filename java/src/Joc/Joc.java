@@ -12,6 +12,12 @@ public class Joc{
 
 	static Map<String, String> msgs=new HashMap<String, String>();
 	public static void main(String[] args){
+		// try {
+		// 	ArbreB a=new ArbreB("/home/morlok/Documents/university/2/padv/practiquesss/3/PROVA.TXT");
+		// 	System.out.println(a.alsada());
+		// } catch (Exception e){System.out.println(e);}
+		// System.exit(0);
+
 		String answer;
 		createMessages();
 		
@@ -21,7 +27,9 @@ public class Joc{
 		do{
 			arbre.rewind();
 			System.out.println(msgs.get("spacer")+"\n"+msgs.get("play"));
+			
 			jugar(arbre);
+			
 			System.out.print(msgs.get("play-again"));
 			answer=Keyboard.readString().toLowerCase();
 		}while(answer.equals("si"));
@@ -53,14 +61,13 @@ public class Joc{
 
 	private static ArbreB load_file(){
 		ArbreB a;
-		System.out.print(msgs.get("filename"));
-		try{
-			String answer=Keyboard.readString(); // CHECK what if 404?
-			a=new ArbreB(answer);
-		}catch (Exception e){
-			System.out.println("Error: "+e.getMessage());
-			a=new ArbreB();
-		}
+		do{
+			System.out.print(msgs.get("filename"));
+			try{
+				String answer=Keyboard.readString(); // CHECK what if 404?
+				a=new ArbreB(answer);
+			}catch (Exception e){System.out.println("Error: "+e.getMessage());}
+		}while(a!=null);
 		return a;
 	}
 
@@ -131,4 +138,8 @@ public class Joc{
 
 	static String capitalize(String in){return in.substring(0,1).toUpperCase()+in.substring(1).toLowerCase();}
 	static String removeQ(String in){return (in.endsWith("?"))?in.substring(0,in.length()-1):in;}
+
+
+
+
 }

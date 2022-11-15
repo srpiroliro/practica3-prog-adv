@@ -28,14 +28,14 @@ class ArbreB:
         int getAnimals(){
 			int c=0;
 			if(yes==NULL && no==NULL) return 1;
-			for (ArbreB arbre:new ArbreB[]{yes,no}) {
-				if(arbre) c+=arbre.root[0].getAnimals();
+			for (ArbreB arbre:{yes,no}) {
+				if(arbre!=NULL) c+=arbre.root[0].getAnimals();
 			}
 			return c;
 		}
     };
 
-    NodeA[] root;
+    NodeA root[];
 
     public:
         ArbreB(){root=NULL;}
