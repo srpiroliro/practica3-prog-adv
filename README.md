@@ -1,4 +1,5 @@
 # TODO
+## Java
 - `class ArbreB`
     - [X] CHECKs:
         - [X] `public ArbreB()`
@@ -10,3 +11,14 @@
     - [X] main
     - [X] substituir `System.console()` per la llibreria `Keyboard.jar`
     - [X] comprovar que Keyboard funciona.
+
+## C++
+- `class ArbreB`
+    - [ ] `moveToYes()` & `moveToNo()`
+    - [ ] `void save(string filename)`
+    - [ ] `NodeA loadFromFile(string filename)`
+    - [ ] `NodeA build(...)`
+    - [ ] `void preorderWrite(...)`
+
+- [ ] `class Joc`
+    - all
