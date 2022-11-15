@@ -1,5 +1,5 @@
 package Joc;
-
+// /home/morlok/Documents/university/2/padv/practiques/3/PROVA.TXT
 import Keyboard.*;
 
 import java.util.HashMap;
@@ -10,10 +10,10 @@ public class Joc{
 
 	static Map<String, String> msgs=new HashMap<String, String>();
 	public static void main(String[] args){
-		String answer;
 		createMessages();
 		
 		System.out.println(msgs.get("welcome")+"\n"+msgs.get("spacer")+"\n"+msgs.get("load-file?"));
+		String answer=Keyboard.readString();
 		ArbreB arbre=(answer.toLowerCase().equals("si"))?load_file():generate_tree();
 
 		do{
@@ -52,15 +52,15 @@ public class Joc{
 	}
 
 	private static ArbreB load_file(){
-		ArbreB a;
+		ArbreB arbre=null;
 		do{
 			System.out.print(msgs.get("filename"));
 			try{
 				String answer=Keyboard.readString();
-				a=new ArbreB(answer);
+				arbre=new ArbreB(answer);
 			}catch (Exception e){System.out.println("Error: "+e.getMessage());}
-		}while(a!=null);
-		return a;
+		}while(arbre==null);
+		return arbre;
 	}
 
 	private static void save_tree(ArbreB arbre){
@@ -69,7 +69,7 @@ public class Joc{
 		String answer=Keyboard.readString();
 		if(answer.toLowerCase().equals("si")){
 			System.out.print(msgs.get("filename"));
-			try{arbre.save(System.console().readLine());}
+			try{arbre.save(Keyboard.readString());}
 			catch(Exception e){
 				System.out.println("Error: "+e.getMessage());
 			}

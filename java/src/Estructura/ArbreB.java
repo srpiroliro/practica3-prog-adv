@@ -74,11 +74,9 @@ public class ArbreB {
 	}
 	public String getContents(){return (isEmpty())?null:root[1].contents;}
 	public void improve(String question,String answer){
-		root[1]=new NodeA(
-			question,
-			new ArbreB(null,null,answer), 
-			new ArbreB(null,null,root[1].contents)
-		);
+		root[1].yes=new ArbreB(null,null,answer);
+		root[1].contents=question;
+		root[1].no=new ArbreB(null,null,root[1].contents);
 	}
 	public void save(String filename) throws Exception{
 		BufferedWriter buw=null;
