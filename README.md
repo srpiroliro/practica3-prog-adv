@@ -1,9 +1,9 @@
 # TODO
 - `class ArbreB`
-    - [ ] CHECKs:
-        - [ ] `public ArbreB()`
-    - [ ] TODO: `public void improve(String question,String answer)`
-    - [ ] `(root==null)` or `isEmpty()`?
+    - [X] CHECKs:
+        - [X] `public ArbreB()`
+    - [X] TODO: `public void improve(String question,String answer)`
+    - [ ] check whether `root` is `null` or `root[1].(yes|no)` is `null`
 
 
 - `class Joc`

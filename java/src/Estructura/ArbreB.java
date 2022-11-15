@@ -10,14 +10,14 @@ import java.io.IOException;
 public class ArbreB {
 	private class NodeA {
 		String contents;
-		ArbreB yes,no;	
-	
+		ArbreB yes,no;
+
 		NodeA(String pregunta){this(pregunta,null,null);}
 		NodeA(String pregunta,ArbreB a1,ArbreB a2){
 			this.contents=pregunta;
 			this.yes=a1; this.no=a2;
 		}
-		
+
 		private void visualitzar(boolean b){
 			boolean answ=yes==null && no==null;
 			if(answ==b) System.out.println(contents);
@@ -39,13 +39,13 @@ public class ArbreB {
 			int c=0;
 			if(yes==null && no==null) return 1;
 			for (ArbreB arbre:new ArbreB[]{yes,no}) {
-				if(arbre!=null) 
+				if(arbre!=null)
 					c+=arbre.root[0].getAnimals();
 			}
 			return c;
 		}
 	}
-	
+
 	private NodeA[] root;
 
 	/* CONSTRUCTORS */
@@ -54,7 +54,7 @@ public class ArbreB {
 		root[1]=new NodeA(pregunta,a1,a2);
 		root[0]=root[1];
 	}
-	public ArbreB(){root=new NodeA[2];}	// CHECK
+	public ArbreB(){root=null}
 	public ArbreB(String filename) throws Exception{
 		root=new NodeA[2];
 		root[1]=loadFromFile(filename);
@@ -66,23 +66,19 @@ public class ArbreB {
 	public void rewind(){root[1]=root[0];}
 	public boolean atAnswer(){return (root==null)?null:root[1].yes==null && root[1].no==null;}
 	public void moveToYes(){
-		if(root==null) return;
+		if(root==null || root[1].yes==null) return; // CHECK
 		root[1]=(root[1].yes==null)?null:root[1].yes.root[1];
-	} 
+	}
 	public void moveToNo(){
-		if(root==null) return;
+		if(root==null || root[1].no==null) return; // CHECK
 		root[1]=(root[1].no==null)?null:root[1].no.root[1];
 	}
 	public String getContents(){
 		return (root==null)?null:root[1].contents;
 	}
-	public void improve(String question,String answer){ // TODO
-		// root[0].no=new ArbreB(root[0].no.root[0], );
-
-
-		root[0].no=new ArbreB(root[0].yes,root[0].no,root[0].contents);
-		root[0].contents=question;
-		root[0].yes=new ArbreB(null,null,answer);
+	public void improve(String question,String answer){
+		ArbreB nou=new ArbreB(new ArbreB(null,null,answer), new ArbreB(null,null, root[1].contents), question);
+		root[1]=nou;
 	}
 	public void save(String filename) throws Exception{
 		BufferedWriter buw=null;
@@ -97,10 +93,10 @@ public class ArbreB {
 	}
 	public int quantsAnimals(){
 		if(root==null) return 0;
-		return root[0].getAnimals();	
+		return root[0].getAnimals();
 	}
 	public int alsada(){
-		return (isEmpty())?0:root[0].getDepth();		
+		return (isEmpty())?0:root[0].getDepth();
 	}
 	public void visualitzarPreguntes(){
 		if(root==null) return;
